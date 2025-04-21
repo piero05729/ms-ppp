@@ -1,9 +1,11 @@
 package upeu.edu.pe.msppp.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import upeu.edu.pe.msppp.domain.Ppp;
+import upeu.edu.pe.msppp.service.IPppService;
 import upeu.edu.pe.msppp.service.impl.IPppServiceImpl;
 
 import java.util.List;
@@ -16,9 +18,6 @@ public class PppController {
     @Autowired
     private IPppServiceImpl pppService;
 
-    /**
-     * 🔍 Listar todos los registros de PPP
-     */
     @GetMapping
     public ResponseEntity<List<Ppp>> listar() {
         List<Ppp> lista = pppService.readAll();
@@ -26,17 +25,11 @@ public class PppController {
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
-    /**
-     * 💾 Guardar un nuevo registro de PPP
-     */
     @PostMapping
     public ResponseEntity<Ppp> guardar(@RequestBody Ppp ppp) {
         return new ResponseEntity<>(pppService.create(ppp), HttpStatus.CREATED);
     }
 
-    /**
-     * 🔍 Buscar un registro de PPP por su ID
-     */
     @GetMapping("/{id}")
     public ResponseEntity<Ppp> buscar(@PathVariable Long id) {
         Optional<Ppp> ppp = pppService.read(id);
@@ -44,9 +37,6 @@ public class PppController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    /**
-     * 🔄 Actualizar un registro de PPP existente
-     */
     @PutMapping("/{id}")
     public ResponseEntity<Ppp> actualizar(@PathVariable Long id, @RequestBody Ppp ppp) {
         Optional<Ppp> actual = pppService.read(id);
@@ -58,12 +48,10 @@ public class PppController {
         }
     }
 
-    /**
-     * 🗑️ Eliminar un registro de PPP por su ID
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         pppService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
+
